@@ -35,6 +35,7 @@ button {
 }
 
 .calculator .result-container {
+  height: 6rem;
   background: #2c2d2f;
   border-radius: 0.5rem 0.5rem 0 0;
 }
