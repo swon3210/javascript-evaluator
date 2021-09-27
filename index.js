@@ -3,18 +3,19 @@ import {
   $clearButton,
   $numbersWrapper,
   $operatorsWrapper,
-  $result,
 } from './scripts/elements.js';
+import { UIProxy } from './scripts/proxy.js';
 
-let formula = '';
+const clearFormula = () => {
+  UIProxy.formula = '';
+};
 
 $numbersWrapper.addEventListener('click', (event) => {
   if (event.target.className !== 'number') {
     return;
   }
 
-  formula = formula + event.target.innerText;
-  $result.innerText = formula;
+  UIProxy.formula = UIProxy.formula + event.target.innerText;
 });
 
 $operatorsWrapper.addEventListener('click', (event) => {
@@ -22,22 +23,19 @@ $operatorsWrapper.addEventListener('click', (event) => {
     return;
   }
 
-  formula = formula + event.target.innerText;
-  $result.innerText = formula;
+  UIProxy.formula = UIProxy.formula + event.target.innerText;
 });
 
 $clearButton.addEventListener('click', () => {
-  $result.innerText = '0';
-  formula = '';
+  clearFormula();
 });
 
 $answerButton.addEventListener('click', () => {
   const userAnswer = prompt('결과값은 무엇입니까?');
-  const realAnswer = String(eval(formula));
+  const realAnswer = String(eval(UIProxy.formula));
   if (userAnswer === realAnswer) {
     alert('정답입니다!!');
-    $result.innerText = '0';
-    formula = '';
+    clearFormula();
     return;
   }
 
