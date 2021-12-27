@@ -3,41 +3,73 @@ import {
   $clearButton,
   $numbersWrapper,
   $operatorsWrapper,
-} from './scripts/elements.js';
-import { UIProxy } from './scripts/proxy.js';
+  $result,
+} from "./scripts/elements.js";
 
-const clearFormula = () => {
-  UIProxy.formula = '';
+let leftOperand = "";
+let operator = "";
+let rightOperand = "";
+
+const reset = () => {
+  leftOperand = "";
+  operator = "";
+  rightOperand = "";
 };
 
-$numbersWrapper.addEventListener('click', (event) => {
-  if (event.target.className !== 'number') {
+const clearFormula = () => {
+  $result.innerText = "";
+  reset();
+};
+
+$numbersWrapper.addEventListener("click", (event) => {
+  if (event.target.className !== "number") {
     return;
   }
 
-  UIProxy.formula = UIProxy.formula + event.target.innerText;
+  if (operator === "") {
+    leftOperand = event.target.innerText;
+  } else {
+    rightOperand = event.target.innerText;
+  }
+
+  $result.innerText = event.target.innerText;
 });
 
-$operatorsWrapper.addEventListener('click', (event) => {
-  if (event.target.className !== 'operator') {
+$operatorsWrapper.addEventListener("click", (event) => {
+  if (event.target.className !== "operator") {
     return;
   }
 
-  UIProxy.formula = UIProxy.formula + event.target.innerText;
+  operator = event.target.innerText;
 });
 
-$clearButton.addEventListener('click', () => {
+$clearButton.addEventListener("click", () => {
   clearFormula();
 });
 
-$answerButton.addEventListener('click', () => {
-  const userAnswer = prompt('결과값은 무엇입니까?');
-  const realAnswer = String(eval(UIProxy.formula));
-  if (userAnswer === realAnswer) {
-    alert('정답입니다!!');
-    clearFormula();
-    return;
+$answerButton.addEventListener("click", () => {
+  let result = "";
+
+  switch (operator) {
+    case "+":
+      result = Number(leftOperand) + Number(rightOperand);
+      break;
+    case "-":
+      result = Number(leftOperand) - Number(rightOperand);
+      break;
+    case "*":
+      result = Number(leftOperand) * Number(rightOperand);
+      break;
+    case "/":
+      result = Number(leftOperand) / Number(rightOperand);
+      if (isFinite(result)) {
+        result = Math.floor(result);
+      }
+      break;
+    default:
+      break;
   }
 
-  alert(`오답입니다! 정답은 ${realAnswer}입니다!`);
+  $result.innerText = result;
+  reset();
 });
