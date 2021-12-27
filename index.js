@@ -7,6 +7,7 @@ import {
 } from "./scripts/elements.js";
 
 let result = "";
+
 let leftOperand = "";
 let operator = "";
 let rightOperand = "";
@@ -41,7 +42,7 @@ $operatorsWrapper.addEventListener("click", (event) => {
     return;
   }
 
-  if (result !== "") {
+  if (result !== "" && leftOperand === "") {
     leftOperand = result;
   }
 
