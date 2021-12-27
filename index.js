@@ -6,6 +6,7 @@ import {
   $result,
 } from "./scripts/elements.js";
 
+let result = "";
 let leftOperand = "";
 let operator = "";
 let rightOperand = "";
@@ -40,6 +41,10 @@ $operatorsWrapper.addEventListener("click", (event) => {
     return;
   }
 
+  if (result !== "") {
+    leftOperand = result;
+  }
+
   operator = event.target.innerText;
 });
 
@@ -48,8 +53,6 @@ $clearButton.addEventListener("click", () => {
 });
 
 $answerButton.addEventListener("click", () => {
-  let result = "";
-
   switch (operator) {
     case "+":
       result = Number(leftOperand) + Number(rightOperand);
